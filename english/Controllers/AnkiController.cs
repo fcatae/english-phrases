@@ -9,13 +9,13 @@ namespace english.Controllers
     [Route("api/[controller]")]
     public class AnkiController : Controller
     {
-        class UserInfo
+        public class UserInfo
         {
             public string user;
             public bool isFirstLogin;
         }
 
-        class QuestionRating
+        public class QuestionRating
         {
             public string user;
             public int question_id;
@@ -23,8 +23,9 @@ namespace english.Controllers
         }
 
         [HttpPost("start")]
-        public void Start([FromBody]object userInfo)
+        public int Start([FromBody]UserInfo userInfo)
         {
+            return 0;
         }
 
         [HttpGet("{session_id}/question")]
