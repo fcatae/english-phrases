@@ -45,45 +45,29 @@ namespace english.Controllers
         [HttpGet("{session_id}/question")]
         public QuestionResponse Question(string session_id, [FromQuery]string user)
         {
-            if( user == "test" ) 
-            {
-                return new QuestionResponse() { 
-                                question_id = 123,
-                                question_text = "(test_question) Is this a real test?"
-                                };
-            }
+            int questionId = _ankiServices.GetRandomQuestion(user);
+            string questionText = _ankiServices.GetQuestion(questionId);
 
-            return new QuestionResponse();
+            return new QuestionResponse() {
+                question_id = questionId,
+                question_text = questionText
+            };
         }
 
         [HttpGet("{session_id}/answer")]
         public string Answer(string session_id, [FromQuery]string user, [FromQuery]string question_id)
         {
-            if( user == "test" )
-            {
-                return (question_id == "123") ? 
-                            "(test_answer) The answer is correct" :
-                            "(test_answer) No, the answer is wrong";
-            }
-
-            return "value";
+            int questionId = Int32.Parse(question_id);
+            
+            return _ankiServices.GetAnswer(questionId);
         }
 
         [HttpPost("{session_id}/rate")]
         public bool Rate(int session_id, [FromBody]QuestionRating questionRating)
         {
-            if( questionRating.user == "test" )
-            {
-                if( questionRating.question_id == 123 && 
-                        questionRating.rating >= 1 &&
-                        questionRating.rating <= 100)
+            _ankiServices.RateQuestion(questionRating.question_id, questionRating.rating);
 
-                    return true;
-                
-                throw new InvalidOperationException("failed test");
-            }
-
-            return false;
+            return true;
         }
     }
 }
