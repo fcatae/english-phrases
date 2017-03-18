@@ -36,6 +36,12 @@ let state_question_received = (state, question_id, question_text) => {
         return state;
     };
 
+let state_answer_received = (state, answer_text) => {
+        state.answer_text = answer_text;
+        state.display_rating_buttons = true;
+        return state;
+    };
+
 // event: init
 (function page_init() {
 
@@ -43,6 +49,24 @@ let state_question_received = (state, question_id, question_text) => {
 
 })();
 
+function startSession(isFirstLogin) {
+
+    page_state = state_start_session();
+
+    ankiAPI.start(page_state.user, isFirstLogin)
+        .done( (session_id) => {
+            page_state = state_session_started(page_state, session_id);
+
+            ankiAPI.question(session_id, page_state.user)
+            .done( (qr) => {
+                page_state = state_question_received(page_state,
+                                                        qr.question_id,
+                                                        qr.question_text);
+                render(page_state);                                                    
+            });
+
+        });        
+}
 // event: load
 $(function page_load() {
 
@@ -55,7 +79,7 @@ $(function page_load() {
                 page_state = state_question_received(page_state,
                                                         qr.question_id,
                                                         qr.question_text);
-                render(page_state);                                                        
+                render(page_state);                                                    
             });
 
         });    
@@ -65,11 +89,24 @@ $(function page_load() {
 // event: btn_answer -> click
 $('#btn_answer').click( ()=> {
      
+     ankiAPI.answer(page_state.session_id, page_state.user, page_state.question_id)
+        .done( (answer) => {
+            page_state = state_answer_received(page_state, answer);
+            render(page_state);                                                    
+        });
+
 });
 
 // event: answerrating -> click
 $('.answerrating').click( (ev)=> {
      let button = ev.target
+
+     let rating = parseInt(button.value);
+
+     ankiAPI.rate(page_state.session_id, page_state.user, page_state.question_id, rating)
+        .done( ()=>{
+            startSession(/*isFirstLogin*/ false);
+        });   
 });
 
 // accessors
@@ -86,7 +123,9 @@ let hide_rating_buttons = (show) => $('.answerratebox').hide();
 function render(page) {
 
     if(page.question_text == null) { 
-    } // ??? throw ???
+        // loading...
+        return;
+    }
 
     set_question_text(page.question_text);
 

@@ -16,6 +16,7 @@ var ankiAPI = (function () {
             data: JSON.stringify(userInfo),
             contentType: APPLICATION_JSON        
         });
+        // returns (session_id: string)
     }
 
     anki.question = function (session_id, user) {
@@ -27,7 +28,7 @@ var ankiAPI = (function () {
             url: URL_ANKI_API(`${session_id}/question`),
             data: queryString
         });
-    }
+    } // returns QuestionResponse { question_id, question_text }
 
     anki.answer = function (session_id, user, question_id) {
 
@@ -37,7 +38,7 @@ var ankiAPI = (function () {
             type: "GET", 
             url: URL_ANKI_API(`${session_id}/answer`),
             data: queryString
-        });
+        }); // returns (answer: string)
     }
 
     anki.rate = function (session_id, user, question_id, rating) {

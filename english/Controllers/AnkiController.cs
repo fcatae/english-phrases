@@ -45,7 +45,7 @@ namespace english.Controllers
             if( user == "test" ) 
             {
                 return new QuestionResponse() { 
-                                question_id = 1,
+                                question_id = 123,
                                 question_text = "(test_question) Is this a real test?"
                                 };
             }
@@ -58,7 +58,7 @@ namespace english.Controllers
         {
             if( user == "test" )
             {
-                return (question_id == "1") ? 
+                return (question_id == "123") ? 
                             "(test_answer) The answer is correct" :
                             "(test_answer) No, the answer is wrong";
             }
@@ -71,7 +71,10 @@ namespace english.Controllers
         {
             if( questionRating.user == "test" )
             {
-                if( questionRating.question_id == 123 && questionRating.rating == 100)
+                if( questionRating.question_id == 123 && 
+                        questionRating.rating >= 1 &&
+                        questionRating.rating <= 100)
+
                     return true;
                 
                 throw new InvalidOperationException("failed test");
