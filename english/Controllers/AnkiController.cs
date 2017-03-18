@@ -39,11 +39,6 @@ namespace english.Controllers
         [HttpPost("start")]
         public int Start([FromBody]UserInfo userInfo)
         {
-            if( userInfo.user == "test" ) 
-            {
-                return (userInfo.isFirstLogin) ? 50001 : 60009;
-            }
-
             return _ankiServices.StartSession(userInfo.user, userInfo.isFirstLogin);
         }
 
