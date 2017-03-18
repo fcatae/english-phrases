@@ -29,7 +29,8 @@ CREATE TABLE Users (
 CREATE TABLE UserQuestions (
 	UserId			INT NOT NULL REFERENCES Users(UserId),
 	PhraseId		INT NOT NULL REFERENCES Phrases(PhraseId),
-	Difficulty		INT NOT NULL DEFAULT (200)
+	Difficulty		INT NOT NULL DEFAULT (200),
+	PRIMARY KEY CLUSTERED (UserId, PhraseId)
 )
 
 CREATE INDEX idxPhraseId ON UserQuestions(PhraseId)
