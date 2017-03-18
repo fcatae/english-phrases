@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using english.Services;
 
 namespace english.Controllers
 {
     [Route("api/[controller]")]
     public class AnkiController : Controller
     {
+        private readonly IAnkiServices _ankiServices;
+
+        public AnkiController(IAnkiServices ankiServices)
+        {
+            this._ankiServices = ankiServices;
+        }
+
         public class UserInfo
         {
             public string user;
@@ -36,7 +44,7 @@ namespace english.Controllers
                 return (userInfo.isFirstLogin) ? 50001 : 60009;
             }
 
-            return 0;
+            return _ankiServices.StartSession(userInfo.user, userInfo.isFirstLogin);
         }
 
         [HttpGet("{session_id}/question")]
