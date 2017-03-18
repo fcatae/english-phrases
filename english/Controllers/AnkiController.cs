@@ -34,8 +34,15 @@ namespace english.Controllers
         }
 
         [HttpGet("{session_id}/question")]
-        public string Question(string session_id, string user)
+        public string Question(string session_id, [FromQuery]string user)
         {
+            if( user == "test" ) 
+            {
+                return (session_id == "50001") ? 
+                            "(test) Is this a real test?" :
+                            "(test) Can you confirm the test is working?";
+            }
+
             return "";
         }
 
