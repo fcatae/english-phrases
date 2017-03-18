@@ -25,18 +25,19 @@
 
       <div class="starter-template">
 
-        <p class="lead">The boy and the girl are studying.</p>
+        <p id="question_text" class="lead"></p>
         
         <div class="jumbotron answerbox">
-            <button type="button" class="btn btn-lg btn-primary">Answer</button>
-            <p class="lead">The boy and the girl are studying.</p>
+            <button id="btn_answer" type="button" class="btn btn-lg btn-primary">Answer</button>
+            <p id="answer_text" class="lead"></p>
         </div>
 
-        <button type="button" class="btn btn-default answerrating">Easy</button>
-        <button type="button" class="btn btn-default answerrating">Medium</button>
-        <button type="button" class="btn btn-default answerrating">Hard</button>
-        <button type="button" class="btn btn-default answerrating">Very Hard</button>
-
+        <div class="answerratebox">
+          <button type="button" class="btn btn-default answerrating" value="0">Easy</button>
+          <button type="button" class="btn btn-default answerrating" value="50">Medium</button>
+          <button type="button" class="btn btn-default answerrating" value="75">Hard</button>
+          <button type="button" class="btn btn-default answerrating" value="100">Very Hard</button>
+        </div>
       </div>
 
     </div><!-- /.container -->
