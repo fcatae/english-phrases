@@ -61,6 +61,18 @@ $(function () {
         });
     }
 
+    var rate = function (session_id, user, question_id, rating) {
+
+        var questionRating = { user: user, question_id: question_id, rating: rating};
+
+        return $.ajax({
+            type: "POST", 
+            url: URL_ANKI_API(`${session_id}/rate`),
+            data: JSON.stringify(questionRating),
+            contentType: APPLICATION_JSON        
+        });
+    }
+
     // Tests: start
     start('test', true).done( v => {
         var START_TEST_TRUE = 50001;        
@@ -93,6 +105,15 @@ $(function () {
 
         if(!v.startsWith(ANSWER_TEST)) 
             alert('/api/anki/answer FAILED');
-        });
+    });
+
+
+    // Tests: rate
+    rate(50001, 'test', 123, 100).done( ret => {
+        if(ret == false)
+            alert(ret);
+        alert(1)
+    });
+
 
 });

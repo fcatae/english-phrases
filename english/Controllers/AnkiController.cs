@@ -67,8 +67,17 @@ namespace english.Controllers
         }
 
         [HttpPost("{session_id}/rate")]
-        public void Rate(int session_id, [FromBody]object questionRating)
+        public bool Rate(int session_id, [FromBody]QuestionRating questionRating)
         {
+            if( questionRating.user == "test" )
+            {
+                if( questionRating.question_id == 123 && questionRating.rating == 100)
+                    return true;
+                
+                throw new InvalidOperationException("failed test");
+            }
+
+            return false;
         }
     }
 }
