@@ -31,15 +31,27 @@ $(function () {
 
         var userInfo = { user: user, isFirstLogin: isFirstLogin};
 
-        $.ajax({
+        return $.ajax({
             type: "POST", 
             url: URL_ANKI_API("start"),
             data: JSON.stringify(userInfo),
-            contentType: APPLICATION_JSON
+            contentType: APPLICATION_JSON        
+        }).then( ret => {
+            return JSON.parse(ret);
         });
-
     }
 
-    start('test', true);
+    // Tests
+    start('test', true).done( v => {
+        var START_TEST_TRUE = 50001;        
+        if(v != START_TEST_TRUE) 
+            alert('/api/anki/start FAILED')
+    });
+
+    start('test', false).done( v => {
+        var START_TEST_FALSE = 60009;
+        if(v != START_TEST_FALSE) 
+            alert('/api/anki/start FAILED')
+    });
 
 });
