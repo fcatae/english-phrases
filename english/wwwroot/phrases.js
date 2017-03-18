@@ -10,3 +10,8 @@ $(function () {
     });
 
 });
+
+function phrase_submit(text) {
+    alert(text);
+    return false;
+}
