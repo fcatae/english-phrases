@@ -9,6 +9,19 @@ namespace english.Controllers
     [Route("api/[controller]")]
     public class AnkiController : Controller
     {
+        class UserInfo
+        {
+            public string user;
+            public bool isFirstLogin;
+        }
+
+        class QuestionRating
+        {
+            public string user;
+            public int question_id;
+            public int rating;
+        }
+
         [HttpPost("start")]
         public void Start([FromBody]object userInfo)
         {
