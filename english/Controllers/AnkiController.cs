@@ -15,6 +15,12 @@ namespace english.Controllers
             public bool isFirstLogin;
         }
 
+        public class QuestionResponse
+        {
+            public int question_id;
+            public string question_text;
+        }
+
         public class QuestionRating
         {
             public string user;
@@ -34,21 +40,29 @@ namespace english.Controllers
         }
 
         [HttpGet("{session_id}/question")]
-        public string Question(string session_id, [FromQuery]string user)
+        public QuestionResponse Question(string session_id, [FromQuery]string user)
         {
             if( user == "test" ) 
             {
-                return (session_id == "50001") ? 
-                            "(test) Is this a real test?" :
-                            "(test) Can you confirm the test is working?";
+                return new QuestionResponse() { 
+                                question_id = 1,
+                                question_text = "(test_question) Is this a real test?"
+                                };
             }
 
-            return "";
+            return new QuestionResponse();
         }
 
         [HttpGet("{session_id}/answer")]
-        public string Answer(string session_id, int question_id)
+        public string Answer(string session_id, [FromQuery]string user, [FromQuery]string question_id)
         {
+            if( user == "test" )
+            {
+                return (question_id == "1") ? 
+                            "(test_answer) The answer is correct" :
+                            "(test_answer) No, the answer is wrong";
+            }
+
             return "value";
         }
 

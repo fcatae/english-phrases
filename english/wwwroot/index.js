@@ -49,21 +49,21 @@ $(function () {
             type: "GET", 
             url: URL_ANKI_API(`${session_id}/question`),
             data: queryString
-        }).then( question_text => {
-            return question_text;
+        }).then( question => {
+            return question;
         });
     }
 
-    var answer = function (session_id, user) {
+    var answer = function (session_id, user, question_id) {
 
-        var queryString = {user: user};
+        var queryString = {user: user, question_id: question_id};
 
         return $.ajax({
             type: "GET", 
-            url: URL_ANKI_API(`${session_id}/question`),
+            url: URL_ANKI_API(`${session_id}/answer`),
             data: queryString
-        }).then( question_text => {
-            return question_text;
+        }).then( answer_text => {
+            return answer_text;
         });
     }
 
@@ -82,9 +82,23 @@ $(function () {
 
     // Tests: question
     question(50001, 'test').done( v => {
-        var QUESTION_TEST = '(test)';
+        var QUESTION_TEST = '(test_question)';
 
-        if(!v.startsWith(QUESTION_TEST)) 
-            alert('/api/anki/question FAILED')    });
+        var valid = (v) && 
+                    (v.question_text) &&
+                    (v.question_text.startsWith(QUESTION_TEST));
+
+        if(!valid) 
+            alert('/api/anki/question FAILED');  
+    });
+
+
+    // Tests: answer
+    answer(50001, 'test', 1).done( v => {
+        var ANSWER_TEST = '(test_answer)';
+
+        if(!v.startsWith(ANSWER_TEST)) 
+            alert('/api/anki/answer FAILED');
+        });
 
 });
