@@ -18,16 +18,14 @@ $(function () {
 });
 
 // API
-$(function () {
+var ankiAPI = (function () {
 
-    var baseAddress = "http://localhost:5000";
-    var URL_ANKI_API = (api) => `${baseAddress}/api/anki/${api}`;
+    var URL_ANKI_API = (api) => `/api/anki/${api}`;
     var APPLICATION_JSON = "application/json";
 
-    var POST = "POST";
-    var URL_ANKI_START = baseAddress + "/api/anki/start";
+    var anki = {};
 
-    var start = function (user, isFirstLogin) {
+    anki.start = function (user, isFirstLogin) {
 
         var userInfo = { user: user, isFirstLogin: isFirstLogin};
 
@@ -39,7 +37,7 @@ $(function () {
         });
     }
 
-    var question = function (session_id, user) {
+    anki.question = function (session_id, user) {
 
         var queryString = {user: user};
 
@@ -50,7 +48,7 @@ $(function () {
         });
     }
 
-    var answer = function (session_id, user, question_id) {
+    anki.answer = function (session_id, user, question_id) {
 
         var queryString = {user: user, question_id: question_id};
 
@@ -61,7 +59,7 @@ $(function () {
         });
     }
 
-    var rate = function (session_id, user, question_id, rating) {
+    anki.rate = function (session_id, user, question_id, rating) {
 
         var questionRating = { user: user, question_id: question_id, rating: rating};
 
@@ -73,21 +71,33 @@ $(function () {
         });
     }
 
+    return anki;
+
+})();
+
+// start tests
+$(function() {
+    testAnki( ankiAPI );
+})
+
+// test functions
+function testAnki(anki) {
+
     // Tests: start
-    start('test', true).done( v => {
+    anki.start('test', true).done( v => {
         var START_TEST_TRUE = 50001;        
         if(v != START_TEST_TRUE) 
             alert('/api/anki/start FAILED')
     });
 
-    start('test', false).done( v => {
+    anki.start('test', false).done( v => {
         var START_TEST_FALSE = 60009;
         if(v != START_TEST_FALSE) 
             alert('/api/anki/start FAILED')
     });
 
     // Tests: question
-    question(50001, 'test').done( v => {
+    anki.question(50001, 'test').done( v => {
         var QUESTION_TEST = '(test_question)';
 
         var valid = (v) && 
@@ -98,22 +108,17 @@ $(function () {
             alert('/api/anki/question FAILED');  
     });
 
-
     // Tests: answer
-    answer(50001, 'test', 1).done( v => {
+    anki.answer(50001, 'test', 1).done( v => {
         var ANSWER_TEST = '(test_answer)';
 
         if(!v.startsWith(ANSWER_TEST)) 
             alert('/api/anki/answer FAILED');
     });
 
-
     // Tests: rate
-    rate(50001, 'test', 123, 100).done( ret => {
+    anki.rate(50001, 'test', 123, 100).done( ret => {
         if(ret == false)
             alert(ret);
-        alert(1)
     });
-
-
-});
+}
