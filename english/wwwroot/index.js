@@ -22,9 +22,8 @@ let hide_rating_buttons = (show) => $('.answerratebox').hide();
 
 function render(page) {
 
-    if(page.question_text == null) {
-        // ???
-    }
+    if(page.question_text == null) { 
+    } // ??? throw ???
 
     set_question_text(page.question_text);
 
@@ -44,9 +43,30 @@ function render(page) {
     }
 }
 
-// jQuery Controller
+function page_loop(state) {
+    render(state);
+}
+
+$(function() {
+
+    function ignore_now() {
+    $('#btn_answer').click( ()=> { alert('show answer') });
+    $('.answerrating').click( (ev)=> { 
+        let button = ev.target
+        alert('rate: ' + button.value) });
+    }
+
+});
+
+// start tests
+$(function() {
+    testAnki( ankiAPI );
+})
+
+// render tests
 $(function () {
 
+    // tests
     let state_initial = ({
         question_text: 'can you translate this text?',
         answer_text: null,
@@ -65,19 +85,5 @@ $(function () {
         display_rating_buttons: true
     });
 
-    render(state_show_answer);    
-
-    function ignore_now() {
-    $('#btn_answer').click( ()=> { alert('show answer') });
-    $('.answerrating').click( (ev)=> { 
-        let button = ev.target
-        alert('rate: ' + button.value) });
-    }
-
+    // render(state_???);
 });
-
-
-// start tests
-$(function() {
-    testAnki( ankiAPI );
-})
