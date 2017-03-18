@@ -12,6 +12,10 @@ $(function () {
 });
 
 function phrase_submit(text) {
+
+    // send the text    
     alert(text);
+    // receive the id
+    
     return false;
 }
