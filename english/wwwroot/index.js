@@ -20,13 +20,26 @@ $(function () {
 // API
 $(function () {
 
-    var phrase = "it just works";
+    var baseAddress = "http://localhost:5000";
+    var URL_ANKI_API = (api) => baseAddress + "/api/anki/" + api;
+    var APPLICATION_JSON = "application/json";
 
-    $.ajax({
-        type: "POST",
-        data :JSON.stringify(phrase),
-        url: "api/phrases",
-        contentType: "application/json"
-    });
+    var POST = "POST";
+    var URL_ANKI_START = baseAddress + "/api/anki/start";
+
+    var start = function (user, isFirstLogin) {
+
+        var userInfo = { user: user, isFirstLogin: isFirstLogin};
+
+        $.ajax({
+            type: "POST", 
+            url: URL_ANKI_API("start"),
+            data: JSON.stringify(userInfo),
+            contentType: APPLICATION_JSON
+        });
+
+    }
+
+    start('test', true);
 
 });
