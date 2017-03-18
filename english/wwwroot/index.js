@@ -36,8 +36,6 @@ $(function () {
             url: URL_ANKI_API("start"),
             data: JSON.stringify(userInfo),
             contentType: APPLICATION_JSON        
-        }).then( ret => {
-            return JSON.parse(ret);
         });
     }
 
@@ -49,8 +47,6 @@ $(function () {
             type: "GET", 
             url: URL_ANKI_API(`${session_id}/question`),
             data: queryString
-        }).then( question => {
-            return question;
         });
     }
 
@@ -62,8 +58,6 @@ $(function () {
             type: "GET", 
             url: URL_ANKI_API(`${session_id}/answer`),
             data: queryString
-        }).then( answer_text => {
-            return answer_text;
         });
     }
 
