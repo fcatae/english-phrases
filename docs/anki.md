@@ -14,6 +14,6 @@ Anki
 Endpoint: api/anki
 - /start(user,isFirstLogin) -> (session_id)
 - /{session_id}/question(user) -> question_id, question_text
-- /{session_id}/answer(question_id) -> answer_text
+- /{session_id}/answer(user, question_id) -> answer_text
 - /{session_id}/rate(user, question_id, rating) -> ()
 
