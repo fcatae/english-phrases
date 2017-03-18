@@ -9,24 +9,34 @@ namespace english.Controllers
     [Route("api/[controller]")]
     public class PhrasesController : Controller
     {
+        List<string> _col = new List<string>();
+        public PhrasesController()
+        {
+            _col.AddRange(new string[] { "the boy and the girl are studying" , "I want to rock" });
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _col.ToArray();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return _col[id];
         }
 
         // POST api/values
         [HttpPost]
         public void Post([FromBody]string value)
         {
+            if( value == null || value == "" )
+                throw new InvalidOperationException("value is null or empty");
+                
+            _col.Add(value);
         }
 
         // PUT api/values/5
