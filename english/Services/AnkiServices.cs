@@ -39,6 +39,25 @@ namespace english.Services
                 _db.SaveChanges();
             }
 
+            int total = _db.Phrases.Count();
+
+            var currentUser = _db.Users.First();
+
+            if( total != count )
+            {
+                int minUserQuestion = _db.UserQuestions.Max(uq => uq.PhraseId);
+
+                var newPhrases = _db.Phrases.Where(p => p.PhraseId > minUserQuestion);
+
+                foreach(var phrase in newPhrases )
+                {
+                    var newUserQuestion = new UserQuestions() { User = currentUser, Phrase = phrase };
+
+                    _db.UserQuestions.Add(newUserQuestion);
+                }
+                _db.SaveChanges();
+            }
+
             return 1;
         }
 
