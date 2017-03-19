@@ -29,18 +29,6 @@ namespace english.Services
         public int StartSession(string user, bool isFirstLogin)
         {
             int count = _db.UserQuestions.Count();
-
-            if( count == 0 )
-            {
-                Phrases phrase = new Phrases() { Text = "I am hungry" };
-                Users u = new Users() { Name = "New User " };
-
-                var uq = new UserQuestions() { Phrase = phrase, User = u };
-
-                _db.UserQuestions.Add(uq);
-                _db.SaveChanges();
-            }
-
             int total = _db.Phrases.Count();
 
             var currentUser = _db.Users.First();

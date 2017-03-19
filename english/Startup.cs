@@ -59,10 +59,9 @@ namespace english
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IAnkiServices anki, EnglishContext edb)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IAnkiServices anki, EnglishContext db)
         {
-            Tests(edb);
-            Tests(anki);
+            SetupDatabase(db);
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -86,30 +85,36 @@ namespace english
             app.UseMvc();
         }
 
-        public void Tests(EnglishContext edb)
+        void SetupDatabase(EnglishContext db)
         {
-            edb.Database.EnsureCreated();
+            db.Database.EnsureCreated();
 
-            var count = edb.Phrases.Count();
-
-            if(count == 0)
+            if (db.Users.Count() == 0)
             {
-                edb.Phrases.Add(new Phrases() { Text = "Hello world" });
-                edb.SaveChanges();
+                db.Users.Add(new Users() { Name = "user01" });
             }
-        }
 
-        public void Tests(IAnkiServices anki)
-        {
-            anki.StartSession("test",false);
+            var q = new[] { 1,2,3};
 
-            int questionId = anki.GetRandomQuestion(user: "test");
+            var qaList = new[] {
+                new { Q = "Hello World", A = "Olá Mundo" },
+                new { Q = "How old are you?", A = "Quantos anos você tem?" },
+                new { Q = "What is your name?", A = "Qual é o seu nome?" } };
 
-            string questionText = anki.GetQuestion(questionId);
+            if( db.Phrases.Count() == 0 )
+            {
+                foreach(var qa in qaList)
+                {
+                    var phrase = new Phrases() { Text = qa.Q };
+                    var translation = new Translations() { Text = qa.A, Phrase = phrase };
 
-            string answerText = anki.GetAnswer(questionId);
+                    db.Translations.Add(translation);
+                    db.SaveChanges();
+                }
+                
+            }
 
-            anki.RateQuestion(questionId, rating: 100);
+            db.SaveChanges();
         }
     }
 }
