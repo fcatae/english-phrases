@@ -30,18 +30,15 @@ namespace english.Services
 
             if( count == 0 )
             {
-                Phrases phrase = new Phrases() { Text = "New phrase" };
-                Users u = new Users() { Name = "New user " };
+                Phrases phrase = new Phrases() { Text = "I am hungry" };
+                Users u = new Users() { Name = "New User " };
 
                 var uq = new UserQuestions() { Phrase = phrase, User = u };
 
                 _db.UserQuestions.Add(uq);
                 _db.SaveChanges();
-
-
             }
 
-            var a = _db;
             return 1;
         }
 
@@ -54,9 +51,9 @@ namespace english.Services
 
         public string GetQuestion(int questionId)
         {
-            var p = _db.Phrases.Find(questionId);
+            var qt = _db.Phrases.Find(questionId);
 
-            return p.Text;
+            return qt.Text;
         }
 
         public string GetAnswer(int questionId)
@@ -65,9 +62,7 @@ namespace english.Services
 
             if( ans == null )
             {
-                ans = new Translations() { PhraseId = questionId, Text = "esta frase ainda não tem tradução" };
-                _db.Translations.Add(ans);
-                _db.SaveChanges();
+                return "esta frase ainda não tem tradução";
             }
 
             return ans.Text;
@@ -77,64 +72,10 @@ namespace english.Services
         {
             var uq = _db.UserQuestions.First(q => q.PhraseId == question_id);
 
-            uq.Difficulty = rating - 1;
+            uq.Difficulty = (rating + uq.Difficulty)/2;
 
             _db.SaveChanges();
         }
 
     }
-    class TestAnkiServices : IAnkiServices
-    {
-        public int StartSession(string user, bool isFirstLogin)
-        {
-            if( user == "test" ) 
-            {
-                return (isFirstLogin) ? 50001 : 60009;
-            }
-
-            return -1;
-        }
-
-        public int GetRandomQuestion(string user)
-        {
-            int INVALID_QUESTION_ID = -1;
-
-            return ( user == "test" ) ? 123 : INVALID_QUESTION_ID;
-        }
-
-        public string GetQuestion(int questionId)
-        {
-            switch(questionId)
-            {
-                case 123: 
-                    return "(test_question) Is this a real test?";
-                case -1:
-                    return "who are you?";                
-            }
-            
-            return "what is your question?";
-        }
-
-        public string GetAnswer(int questionId)
-        {
-            switch(questionId)
-            {
-                case 123: 
-                    return "(test_answer) The answer is correct";
-                case -1:
-                    return "negative value - very weird question";
-            }
-            
-            return "(test_answer) No, the answer is wrong";
-        }
-
-        public void RateQuestion(int question_id, int rating)
-        {
-            if( question_id == 123 && rating >= 1 && rating <= 100 )
-            {                
-            }
-            else throw new InvalidOperationException("failed test");
-        }
-
-    }    
 }

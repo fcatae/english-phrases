@@ -37,16 +37,24 @@ namespace english
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EnglishContext>(op => op.UseSqlite("Data Source=database.db"));
-
             services.AddTransient<IAnkiServices, AnkiServices>();
 
             services.AddMvc();
 
+            // Development
+            if (_env.IsDevelopment())
+            {
+                services.AddDbContext<EnglishContext>(op => op.UseSqlServer("Data Source=.;Database=DBE01;Integrated Security=SSPI"));
+            }
+            else
+            {
+                services.AddDbContext<EnglishContext>(op => op.UseSqlite("Data Source=database.db"));
+            }
+
             // Test Environment
             if (_env.IsEnvironment("Test"))
             {
-                services.AddTransient<IAnkiServices, TestAnkiServices>();
+                services.AddTransient<IAnkiServices, Services.Tests.TestAnkiServices>();
             }
         }
 

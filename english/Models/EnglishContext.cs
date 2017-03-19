@@ -11,9 +11,8 @@ namespace english.Models
         public virtual DbSet<UserQuestions> UserQuestions { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public EnglishContext(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlite(@"Data Source=database.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
