@@ -10,11 +10,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace english
 {
     public class Startup
     {
+        IHostingEnvironment _env;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -23,6 +28,8 @@ namespace english
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            _env = env;
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -31,9 +38,16 @@ namespace english
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EnglishContext>(op => op.UseSqlite("Data Source=database.db"));
+
             services.AddTransient<IAnkiServices, AnkiServices>();
 
             services.AddMvc();
+
+            // Test Environment
+            if (_env.IsEnvironment("Test"))
+            {
+                services.AddTransient<IAnkiServices, TestAnkiServices>();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +60,18 @@ namespace english
             loggerFactory.AddDebug();
 
             app.UseDefaultFiles();
+
+
+            // Test Environment
+            if(env.IsEnvironment("Test"))
+            {
+                app.UseStaticFiles(new StaticFileOptions()
+                {
+                    FileProvider = new PhysicalFileProvider(
+                        Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\tests")),
+                        RequestPath = new PathString("")
+                });
+            }
 
             app.UseStaticFiles();
 
