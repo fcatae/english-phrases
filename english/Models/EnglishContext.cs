@@ -13,7 +13,7 @@ namespace english.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=.;Database=dbenglish;Integrated Security=SSPI");
+            optionsBuilder.UseSqlite(@"Data Source=database.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
