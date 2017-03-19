@@ -8,23 +8,14 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="phrases.css">
+
 </head>
 <body>    
+    <script src="js/jquery-3.2.0.min.js"></script>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Learn Phrases</a>
-        </div>
-        <!--/navigation: Register | Translate -->
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li><a href="/phrases.html">Ideas</a></li>
-              <li><a href="/translate.html">Translate</a></li>
-            </ul> 
-        </div>
-      </div>
-    </nav>
+    <!-- top menu -->
+    <div id="menu"></div>
+    <script> $('#menu').load('menu.html') </script>
 
     <div class="container">
 
@@ -47,7 +38,6 @@
 
     </div><!-- /.container -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="phrases.js"></script>
 </body>
