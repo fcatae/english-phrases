@@ -71,13 +71,22 @@ namespace english.Controllers
         }
 
         [HttpPost("pendinganswer")]
-        public int GetPendingAnswer()
+        public QuestionResponse GetPendingAnswer()
         {
-            return _ankiServices.GetPendingAnswer();
+            int questionId = _ankiServices.GetPendingAnswer();
+
+            if( questionId == -1 )
+            {
+                return new QuestionResponse() { question_id = -1, question_text = "" };
+            }
+
+            string questionText = _ankiServices.GetQuestion(questionId);
+
+            return new QuestionResponse() { question_id = questionId, question_text = questionText };
         }
 
         [HttpGet("translate")]
-        public void Translate(int question_id, string answer_text)
+        public void Translate([FromQuery]int question_id, [FromQuery]string answer_text)
         {
             _ankiServices.ProvideAnswer(question_id, answer_text);
         }

@@ -27,6 +27,8 @@ let state_question_received = (state, question_id, question_text) => {
 let set_question_text = (text) => $('#question_text').text(text);
 let get_answer_text = () => $('#answer_text').val();
 let set_answer_text = (text) => $('#answer_text').val(text);
+let hide_answer_button = () => $('#btn_answer').hide();
+let show_noanswer_warning = () => alert('Não há mais frases a serem traduzidas.');
 
 function startSession() {
 
@@ -57,6 +59,9 @@ $('#btn_answer').click( ()=> {
      
      var text = get_answer_text();
 
+     if( text == null|| text == '') 
+        return;
+    
      ankiAPI.translate(page_state.question_id, text)
         .done( () => {
             startSession();                
@@ -70,6 +75,11 @@ function render(page) {
     if(page.question_text == null) { 
         // loading...
         return;
+    }
+
+    if(page.question_id == -1) {
+        hide_answer_button();
+        show_noanswer_warning();
     }
 
     set_question_text(page.question_text);

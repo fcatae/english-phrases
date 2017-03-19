@@ -64,13 +64,12 @@ var ankiAPI = (function () {
 
     anki.translate = function(question_id, answer_text) {
 
-        var answer = { question_id: question_id, answer_text: answer_text };
+        var queryString = { question_id: question_id, answer_text: answer_text };
 
         return $.ajax({
             type: "GET",
             url: URL_ANKI_API('translate'),
-            data: JSON.stringify(answer),
-            contentType: APPLICATION_JSON
+            data: queryString
         });
     }
 
