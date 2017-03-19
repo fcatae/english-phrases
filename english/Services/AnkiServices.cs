@@ -26,29 +26,60 @@ namespace english.Services
 
         public int StartSession(string user, bool isFirstLogin)
         {
+            int count = _db.UserQuestions.Count();
+
+            if( count == 0 )
+            {
+                Phrases phrase = new Phrases() { Text = "New phrase" };
+                Users u = new Users() { Name = "New user " };
+
+                var uq = new UserQuestions() { Phrase = phrase, User = u };
+
+                _db.UserQuestions.Add(uq);
+                _db.SaveChanges();
+
+
+            }
+
             var a = _db;
             return 1;
         }
 
         public int GetRandomQuestion(string user)
         {
-            // get next GetRandomQuestion
-            return 2;
+            var uq = _db.UserQuestions.OrderByDescending(u => u.Difficulty).First();
+
+            return uq.PhraseId;
         }
 
         public string GetQuestion(int questionId)
         {
-            return "what is your question?";
+            var p = _db.Phrases.Find(questionId);
+
+            return p.Text;
         }
 
         public string GetAnswer(int questionId)
         {
-            return "(test_answer) No, the answer is wrong";
+            var ans = _db.Translations.FirstOrDefault(t => t.PhraseId == questionId);
+
+            if( ans == null )
+            {
+                ans = new Translations() { PhraseId = questionId, Text = "esta frase ainda não tem tradução" };
+                _db.Translations.Add(ans);
+                _db.SaveChanges();
+            }
+
+            return ans.Text;
         }
 
         public void RateQuestion(int question_id, int rating)
         {
-            new InvalidOperationException("failed test");
+            var uq = _db.UserQuestions.First(q => q.PhraseId == question_id);
+
+            uq.Difficulty = rating - 1;
+
+            _db.SaveChanges();
         }
 
     }

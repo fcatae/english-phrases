@@ -69,7 +69,13 @@ namespace english
         {
             anki.StartSession("test",false);
 
+            int questionId = anki.GetRandomQuestion(user: "test");
 
+            string questionText = anki.GetQuestion(questionId);
+
+            string answerText = anki.GetAnswer(questionId);
+
+            anki.RateQuestion(questionId, rating: 100);
         }
     }
 }
