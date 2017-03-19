@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using english.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace english.Controllers
@@ -9,6 +10,13 @@ namespace english.Controllers
     [Route("api/[controller]")]
     public class PhrasesController : Controller
     {
+        EnglishContext _db;
+
+        public PhrasesController(EnglishContext db)
+        {
+            this._db = db;
+        }
+
         List<string> _col = new List<string>();
         public PhrasesController()
         {
