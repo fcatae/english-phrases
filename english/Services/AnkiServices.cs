@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using english.Models;
 
 namespace english.Services
 {
@@ -15,14 +15,18 @@ namespace english.Services
         void RateQuestion(int question_id, int rating);
     }
 
-    class AnkiServices : IAnkiServices
+    public class AnkiServices : IAnkiServices
     {
-        public AnkiServices()
+        EnglishContext _db;
+
+        public AnkiServices(EnglishContext db)
         {            
+            this._db = db;
         }
 
         public int StartSession(string user, bool isFirstLogin)
         {
+            var a = _db;
             return 1;
         }
 
