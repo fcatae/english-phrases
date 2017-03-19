@@ -100,12 +100,25 @@ namespace english.Services
 
         public int GetPendingAnswer()
         {
-            return -1;
+            var ans = _db.Phrases.FirstOrDefault(p => p.Translations.Count == 0);
+
+            //var ans2 = _db.Phrases.FirstOrDefault(p => _db.Translations.FirstOrDefault( t => t.PhraseId == p.PhraseId) == null );
+            
+            //var ans3 = _db.Phrases.FirstOrDefault(p => p.Translations.FirstOrDefault() == null);
+
+            //Console.WriteLine($"Ans: ${ans.PhraseId}");
+            //Console.WriteLine($"Ans2: ${ans2.PhraseId}");
+            //Console.WriteLine($"Ans3: ${ans3.PhraseId}");
+
+            return (ans != null) ? ans.PhraseId : -1;
         }
 
         public void ProvideAnswer(int question_id, string answer_text)
         {
-
+            var answer = new Translations() { PhraseId = question_id, Text = answer_text };
+                
+            _db.Translations.Add(answer);
+            _db.SaveChanges();
         }
 
     }
