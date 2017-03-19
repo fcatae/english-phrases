@@ -19,20 +19,15 @@
     <div class="container">
 
       <div class="starter-template">
+          <p id="question_text" class="lead"></p>
+          
+          <div class="form-group">
+              <input id="answer_text" name="phrase" type="text" class="form-control text-center" placeholder="[Escreva a tradução]" autocomplete="off" autofocus="autofocus">
+          </div>
 
-        <p id="question_text" class="lead"></p>
-        
-        <div class="jumbotron answerbox">
-            <button id="btn_answer" type="button" class="btn btn-lg btn-primary">Answer</button>
-            <p id="answer_text" class="lead"></p>
-        </div>
-
-        <div class="answerratebox">
-          <button type="button" class="btn btn-default answerrating" value="10">Easy</button>
-          <button type="button" class="btn btn-default answerrating" value="50">Medium</button>
-          <button type="button" class="btn btn-default answerrating" value="75">Hard</button>
-          <button type="button" class="btn btn-default answerrating" value="100">Very Hard</button>
-        </div>
+          <div class="form-group"> 
+              <button id="btn_answer" type="button" class="btn btn-lg btn-primary">Answer</button>
+          </div>
       </div>
 
     </div><!-- /.container -->
