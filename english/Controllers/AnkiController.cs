@@ -69,5 +69,17 @@ namespace english.Controllers
 
             return true;
         }
+
+        [HttpPost("pendinganswer")]
+        public int GetPendingAnswer()
+        {
+            return _ankiServices.GetPendingAnswer();
+        }
+
+        [HttpGet("translate")]
+        public void Translate(int question_id, string answer_text)
+        {
+            _ankiServices.ProvideAnswer(question_id, answer_text);
+        }
     }
 }

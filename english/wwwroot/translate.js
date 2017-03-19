@@ -1,17 +1,3 @@
-
-
-ankiAPI.pendingAnswer = function() {
-    return $.when({
-        question_id: 123,
-        question_text: 'testing..?'
-    });
-}
-
-ankiAPI.translate = function(question_id, answer_text) {
-    alert(answer_text)
-    return $.when();
-}
-
 // state
 var page_state = {
     question_text: null,

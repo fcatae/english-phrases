@@ -13,6 +13,8 @@ namespace english.Services
         string GetQuestion(int question_id);
         string GetAnswer(int question_id);
         void RateQuestion(int question_id, int rating);
+        int GetPendingAnswer();
+        void ProvideAnswer(int question_id, string answer_text);
     }
 
     public class AnkiServices : IAnkiServices
@@ -94,6 +96,16 @@ namespace english.Services
             uq.Difficulty = (rating + uq.Difficulty)/2;
 
             _db.SaveChanges();
+        }
+
+        public int GetPendingAnswer()
+        {
+            return -1;
+        }
+
+        public void ProvideAnswer(int question_id, string answer_text)
+        {
+
         }
 
     }

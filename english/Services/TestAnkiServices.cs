@@ -59,5 +59,13 @@ namespace english.Services.Tests
             else throw new InvalidOperationException("failed test");
         }
 
+        public int GetPendingAnswer()
+        {
+            return 123;
+        }
+
+        public void ProvideAnswer(int question_id, string answer_text)
+        {
+        }
     }
 }

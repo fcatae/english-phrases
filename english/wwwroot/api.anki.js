@@ -53,6 +53,27 @@ var ankiAPI = (function () {
         });
     }
 
+    anki.pendingAnswer = function () {
+
+        return $.ajax({
+            type: "POST",
+            url: URL_ANKI_API('pendinganswer'),
+            contentType: APPLICATION_JSON
+        });
+    }
+
+    anki.translate = function(question_id, answer_text) {
+
+        var answer = { question_id: question_id, answer_text: answer_text };
+
+        return $.ajax({
+            type: "GET",
+            url: URL_ANKI_API('translate'),
+            data: JSON.stringify(answer),
+            contentType: APPLICATION_JSON
+        });
+    }
+
     return anki;
 
 })();

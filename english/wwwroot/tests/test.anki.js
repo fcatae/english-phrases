@@ -39,4 +39,15 @@ function testAnki(anki) {
         if(ret == false)
             alert(ret);
     });
+
+    // Tests: get pending answer
+    anki.pendingAnswer().done(q => {
+        var TEST_QUESTION = 123;
+
+        if (q != TEST_QUESTION)
+            alert('/api/anki/pendingAnswer FAILED')
+    });
+    
+    anki.translate(123, 'it works').done();
+    
 }
