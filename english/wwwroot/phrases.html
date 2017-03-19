@@ -28,7 +28,7 @@
         <h1>Start with Ideas</h1>
         <p class="lead">Did you learn new nouns and verbs? <br> Feed the application, and improve the vocabulary.</p>
         
-        <form onsubmit="return phrase_submit($('input[name=phrase]').val())">
+        <form onsubmit="return phrase_submit($('input[name=phrase]').val(), ()=>{ $('input[name=phrase]').val('') })">
             <div class="form-group">
                 <input id="frm_phrase" name="phrase" type="text" class="form-control text-center" placeholder="[Type your phrase]" autocomplete="off" autofocus="autofocus">
             </div>

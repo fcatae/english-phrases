@@ -1,5 +1,5 @@
 
-function phrase_submit(text) {
+function phrase_submit(text, callback) {
 
     $.ajax({
         type: "POST",
@@ -8,7 +8,7 @@ function phrase_submit(text) {
         contentType: "application/json"
     })
     .done( () => {
-        alert('submitted');
+        if(callback) callback();
     });
     
     
