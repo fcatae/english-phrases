@@ -24,8 +24,11 @@ namespace english.Controllers
             // Delete
             _db.Database.EnsureDeleted();
 
-            // Create
+            // Create 
             _db.Database.EnsureCreated();
+
+            // Populate data
+            Startup.SetupDatabase(_db);
 
             return "Done";
         }

@@ -85,7 +85,7 @@ namespace english
             app.UseMvc();
         }
 
-        void SetupDatabase(EnglishContext db)
+        public static void SetupDatabase(EnglishContext db)
         {
             db.Database.EnsureCreated();
 
