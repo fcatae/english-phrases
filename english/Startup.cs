@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace english
 {
@@ -56,6 +57,11 @@ namespace english
             {
                 services.AddTransient<IAnkiServices, Services.Tests.TestAnkiServices>();
             }
+            
+            services.AddSwaggerGen( c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "EnglishPhrases", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +87,12 @@ namespace english
             }
 
             app.UseStaticFiles();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EnglishPhrases v1");
+            });
 
             app.UseMvc();
         }
