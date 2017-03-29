@@ -3,10 +3,7 @@ interface AppVerbProps {
     present: string,
     past: string,
     perfect: string,
-
-    show_present: boolean,
-    show_past: boolean,
-    show_perfect: boolean    
+    callback?: (answer:any) => (void)
 }
 
 class AppVerb extends React.Component<AppVerbProps,{}> {
@@ -16,9 +13,18 @@ class AppVerb extends React.Component<AppVerbProps,{}> {
    private p3: any;
 
    answer() {
-        alert(this.p1.userAnswer());
-        alert(this.p2.userAnswer());
-        alert(this.p3.userAnswer());
+       var ans = {
+            present: this.p1.userAnswer(),
+            past: this.p2.userAnswer(),
+            perfect: this.p3.userAnswer()
+       }
+
+       if(this.props.callback) {
+            this.props.callback(ans);
+       } else {
+            alert(JSON.stringify(ans));
+       }
+        
    }
 
    render() {
@@ -27,9 +33,9 @@ class AppVerb extends React.Component<AppVerbProps,{}> {
             <form autoFocus>
              <div className="verbtable col-md-8 col-md-offset-2">
                 <div className="row">
-                    <span className="col-md-4"><VerbText ref={c=> this.p1=c} show={this.props.show_present} label="Present" answer={this.props.present}/></span>
-                    <span className="col-md-4"><VerbText ref={c=> this.p2=c} show={this.props.show_past} label="Past" answer={this.props.past} /></span>
-                    <span className="col-md-4"><VerbText ref={c=> this.p3=c} show={this.props.show_perfect} label="Present Perfect" answer={this.props.perfect}/></span>
+                    <span className="col-md-4"><VerbText ref={c=> this.p1=c}  label="Present"           answer={this.props.present}/></span>
+                    <span className="col-md-4"><VerbText ref={c=> this.p2=c}  label="Past"              answer={this.props.past} /></span>
+                    <span className="col-md-4"><VerbText ref={c=> this.p3=c}  label="Present Perfect"   answer={this.props.perfect}/></span>
                 </div>                
             </div>
 
@@ -44,9 +50,8 @@ class AppVerb extends React.Component<AppVerbProps,{}> {
 }
 
 interface VerbTextProps {
-    answer: string;
+    answer: string | null;
     label: string;
-    show: boolean;
 }
 
 class VerbText extends React.Component<VerbTextProps,{}> {
@@ -54,16 +59,15 @@ class VerbText extends React.Component<VerbTextProps,{}> {
     private input: any;
 
     userAnswer() {
-        return (this.props.show) ? this.props.answer : this.input.value;
+        return (this.props.answer != null) ? this.props.answer : this.input.value;
     }
 
     render() {
 
-        let showAnswer = this.props.show;
         let label = this.props.label;
         let verb = this.props.answer;
 
-        if(showAnswer) {
+        if(verb != null) {
             return <p className="form-control-static"><strong>{ verb }</strong></p>;            
         }
 

@@ -36,11 +36,9 @@
                 
         var verb_model = {
             present: 'do',
-            past: 'did',
-            perfect: 'done',    
-            show_present: true,
-            show_past: false,
-            show_perfect: false   
+            //past: 'did',
+            perfect: 'done',
+            callback: t => alert(t.past)
         };
 
         ReactDOM.render(React.createElement(AppVerb, verb_model), document.getElementById('app'));
