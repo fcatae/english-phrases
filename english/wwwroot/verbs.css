@@ -5,3 +5,14 @@ body {
   padding: 60px 15px;
   text-align: center;
 }
+
+.verbheader {
+  padding: 10px;
+}
+
+.verbtable {
+  border: 1px solid darkorange;
+  border-radius: 5px;
+  background-color: #ffc0aa;
+  padding: 10px;
+}
