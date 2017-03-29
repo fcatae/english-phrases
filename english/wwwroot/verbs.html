@@ -33,11 +33,25 @@
       
       <script>
 
-                
+        // get the verbs
+        var verb_array = [
+            { present: 'do', past: 'did', perfect: 'done' },
+            { present: 'go', past: 'went', perfect: 'gone' },
+            { present: 'have', past: 'had', perfect: 'had' },
+            { present: 'come', past: 'came', perfect: 'come' }
+        ];
+        
+        // get the question
+        var question = ['present', 'past', 'perfect'];
+
+        var r1 = Math.floor(Math.random()*verb_array.length);
+        var r2 = Math.floor(Math.random()*question.length);
+
         var verb_model = {
-            present: 'do',
-            //past: 'did',
-            perfect: 'done',
+            present: (r2 == 0) ? null : verb_array[r1].present,
+            past:    (r2 == 1) ? null : verb_array[r1].past,
+            perfect: (r2 == 2) ? null : verb_array[r1].perfect,
+
             callback: t => alert(t.past)
         };
 
