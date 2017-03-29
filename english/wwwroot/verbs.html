@@ -27,12 +27,28 @@
             </div>
         </div>
 
-      <script src = "js/react.min.js"></script>
-      <script src = "js/react-dom.min.js"></script>
+      <script src = "js/react.js"></script>
+      <script src = "js/react-dom.js"></script>
       <script src = "bin/verbs.js"></script>
       
       <script>
-          ReactDOM.render(React.createElement(AppVerb, null), document.getElementById('app'));
+
+                
+        var verb_model = {
+            present: 'do',
+            past: 'did',
+            perfect: 'done',    
+            show_present: true,
+            show_past: false,
+            show_perfect: false   
+        };
+
+        ReactDOM.render(React.createElement(AppVerb, verb_model), document.getElementById('app'));
+
+        $(document).ready(function() {
+            $('form:first *:input[type!=hidden]:first').focus();
+        });
+
       </script>
 
    </body>

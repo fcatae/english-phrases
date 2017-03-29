@@ -6,13 +6,14 @@ body {
   text-align: center;
 }
 
-.verbheader {
-  padding: 10px;
-}
-
 .verbtable {
+  margin-top: 100px;
   border: 1px solid darkorange;
   border-radius: 5px;
   background-color: #ffc0aa;
-  padding: 10px;
+  padding: 50px;
+}
+
+.verbsubmit {
+  margin-top: 20px;
 }
